@@ -1,0 +1,33 @@
+service: cali
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: wpp
+  region: sa-east-1
+  memorySize: 1024
+  timeout: 120
+  logRetentionInDays: 1
+  deploymentBucket:
+    name: kcalixto-serverless-framework
+
+  environment:
+    NODE_ENV: ${self:provider.stage}
+
+package:
+  individually: true
+  excludeDevDependencies: true
+  exclude:
+    - node_modules/**
+
+functions:
+  sender:
+    handler: index.sender
+    layers:
+      - !Sub "arn:aws:lambda:sa-east-1:764866452798:layer:chrome-aws-lambda:31"
+    events:
+      - http:
+          path: /send
+          method: post
+          cors: true

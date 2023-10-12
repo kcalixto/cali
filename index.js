@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === "local") {
     const testnum = process.env.TEST
     sender({
         body: JSON.stringify({
-            "target_phone_number": "5511933938090",
+            "target_phone_number": "",
             "message": `test#${testnum}`
         })
     })
